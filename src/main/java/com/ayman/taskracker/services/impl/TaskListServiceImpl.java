@@ -4,6 +4,7 @@ import com.ayman.taskracker.repositories.TaskListRepository;
 import com.ayman.taskracker.services.TaskListService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 public class TaskListServiceImpl implements TaskListService
@@ -26,5 +27,15 @@ public class TaskListServiceImpl implements TaskListService
     public List<TaskList> listTaskLists()
     {
         return taskListRepository.findAll();
+    }
+
+    @Override
+    public TaskList createTaskList(TaskList taskList) {
+        if (null!=taskList.getId())
+            throw new IllegalArgumentException("Task List Already has an ID!");
+        if (null == taskList.getTitle())
+            throw new IllegalArgumentException("Task List must has Title!");
+        LocalDateTime now = LocalDateTime.now();
+        return taskListRepository.save(new TaskList(null, taskList.getTitle(), taskList.getDescription(), null, now, now));
     }
 }
