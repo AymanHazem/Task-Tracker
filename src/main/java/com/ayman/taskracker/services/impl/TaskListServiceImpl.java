@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class TaskListServiceImpl implements TaskListService
 {
@@ -28,7 +31,13 @@ public class TaskListServiceImpl implements TaskListService
     {
         return taskListRepository.findAll();
     }
-
+    /**
+     * Creates a new TaskList entity and saves it to the repository.
+     *
+     * @param taskList the TaskList object to be created. It must not have an ID and must have a title.
+     * @return the saved TaskList entity.
+     * @throws IllegalArgumentException if the TaskList already has an ID or if the title is null.
+     */
     @Override
     public TaskList createTaskList(TaskList taskList) {
         if (null!=taskList.getId())
@@ -37,5 +46,16 @@ public class TaskListServiceImpl implements TaskListService
             throw new IllegalArgumentException("Task List must has Title!");
         LocalDateTime now = LocalDateTime.now();
         return taskListRepository.save(new TaskList(null, taskList.getTitle(), taskList.getDescription(), null, now, now));
+    }
+    /**
+     * Retrieves a TaskList entity by its ID.
+     *
+     * @param id the UUID of the TaskList to retrieve.
+     * @return an Optional containing the TaskList if found, or empty if not found.
+     */
+    @Override
+    public Optional<TaskList> getTaskList(UUID id)
+    {
+        return taskListRepository.findById(id);
     }
 }

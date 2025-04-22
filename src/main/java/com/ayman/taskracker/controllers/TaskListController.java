@@ -8,6 +8,9 @@ import com.ayman.taskracker.services.TaskListService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 /**
  * REST controller for managing TaskLists.
  *
@@ -53,5 +56,15 @@ public class TaskListController
         TaskList createdTaskList = taskListService.createTaskList(taskListMapper.fromDto(taskListDto));
         return taskListMapper.toDto(createdTaskList);
     }
-
+    /**
+     * Retrieves a specific TaskList by its ID.
+     *
+     * @param taskListId the UUID of the TaskList to retrieve.
+     * @return an Optional containing the TaskListDto if found, or an empty Optional if not found.
+     */
+    @GetMapping (path = "/{task_list_id}")
+    public Optional<TaskListDto> getTaskList (@PathVariable("task_list_id")UUID taskListId)
+    {
+        return taskListService.getTaskList(taskListId).map(taskListMapper::toDto);
+    }
 }
