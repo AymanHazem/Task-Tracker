@@ -76,9 +76,9 @@ public class TaskListServiceImpl implements TaskListService
         if (!Objects.equals(taskList.getId(),taskListid))
             throw new IllegalArgumentException("Not Allowed");
         TaskList exTaskList = taskListRepository.findById(taskListid).orElseThrow(()->new IllegalArgumentException("Task List Not Found!"));
-        taskList.setTitle(exTaskList.getTitle());
-        taskList.setDescription(exTaskList.getDescription());
-        taskList.setUpdated(LocalDateTime.now());
+        exTaskList.setTitle(taskList.getTitle());
+        exTaskList.setDescription(taskList.getDescription());
+        exTaskList.setUpdated(LocalDateTime.now());
         return taskListRepository.save(exTaskList);
     }
 }
