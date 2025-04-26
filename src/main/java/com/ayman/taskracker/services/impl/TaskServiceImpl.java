@@ -43,4 +43,10 @@ public class TaskServiceImpl implements TaskService
         LocalDateTime now = LocalDateTime.now();
         return taskRepository.save(new Task(null,task.getTitle(),task.getDescription(),task.getDueDate(),taskStatus,taskPriority,taskList,now,now));
     }
+
+    @Override
+    public Optional<Task> getTask(UUID taskListId, UUID taskId)
+    {
+        return taskRepository.findByTaskListIdAndId(taskListId,taskId);
+    }
 }
