@@ -7,6 +7,7 @@ import com.ayman.taskracker.domain.entities.TaskStatus;
 import com.ayman.taskracker.repositories.TaskListRepository;
 import com.ayman.taskracker.repositories.TaskRepository;
 import com.ayman.taskracker.services.TaskService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class TaskServiceImpl implements TaskService
     {
         return taskRepository.findByTaskListId(taskListId);
     }
-
+    @Transactional
     @Override
     public Task createTask(UUID taskListId,Task task)
     {
@@ -50,7 +51,7 @@ public class TaskServiceImpl implements TaskService
     {
         return taskRepository.findByTaskListIdAndId(taskListId,taskId);
     }
-
+    @Transactional
     @Override
     public Task updateTask(UUID taskListId,UUID taskId, Task task)
     {
@@ -72,5 +73,11 @@ public class TaskServiceImpl implements TaskService
         exTask.setPriority(task.getPriority());
         exTask.setUpdated(LocalDateTime.now());
         return taskRepository.save(exTask);
+    }
+    @Transactional
+    @Override
+    public void deleteTask(UUID taskListId,UUID taskId)
+    {
+        taskRepository.deleteByTaskListIdAndId(taskListId,taskId);
     }
 }

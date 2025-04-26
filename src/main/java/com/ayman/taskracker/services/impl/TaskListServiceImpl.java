@@ -2,6 +2,7 @@ package com.ayman.taskracker.services.impl;
 import com.ayman.taskracker.domain.entities.TaskList;
 import com.ayman.taskracker.repositories.TaskListRepository;
 import com.ayman.taskracker.services.TaskListService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -69,6 +70,7 @@ public class TaskListServiceImpl implements TaskListService
      *                                  or if the TaskList is not found in the repository.
      */
     @Override
+    @Transactional
     public TaskList updateTaskList(UUID taskListid, TaskList taskList)
     {
         if (null == taskList.getId())
